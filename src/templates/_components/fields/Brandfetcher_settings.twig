@@ -1,0 +1,29 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#
+/**
+ * Brandfetch plugin for Craft CMS
+ *
+ * Brandfetcher Field Settings
+ *
+ * @author    Milkshake Studio
+ * @copyright Copyright (c) 2020 Milkshake Studio
+ * @link      https://milkshake.studio
+ * @package   Brandfetch
+ * @since     0.0.1
+ */
+#}
+
+{% import "_includes/forms" as forms %}
+
+{% do view.registerAssetBundle("milkshakestudio\\brandfetch\\assetbundles\\brandfetcherfield\\BrandfetcherFieldAsset") %}
+
+
+{# 
+{{ forms.textField({
+    label: 'URL Field',
+    instructions: 'Enter the Handle of the field which will provide the URL for the ',
+    id: 'someAttribute',
+    name: 'someAttribute',
+    value: field['someAttribute']})
+}} 
+#}

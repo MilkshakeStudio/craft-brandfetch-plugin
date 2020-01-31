@@ -1,0 +1,64 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#
+/**
+* Brandfetch plugin for Craft CMS 3.x
+*
+* Brandfetcher Field Input
+*
+* @author    Milkshake Studio
+* @copyright Copyright (c) 2020 Milkshake Studio
+* @link      https://milkshake.studio
+* @package   Brandfetch
+* @since     0.0.1
+*/
+#}
+
+{% import "_includes/forms" as forms %}
+{# {% do view.registerAssetBundle("craft\\web\\assets\\fields\\FieldsAsset") %} #}
+
+
+{# {% include "_components/fieldtypes/assets/input" %} #}
+
+{% if not apiSet %}
+	<div class="input">
+		<p class=" warning">
+			Please enter your API key in the plugin settings.
+		</p>
+	</div>
+
+{% else %}
+
+	<div id="brandfetch-logo">		
+		<div class="flex" id="brandfetch-empty" {% if logo %}style="display:none;"{% endif %}>
+			<div class="flex-grow">
+				{{ forms.textField({
+						label: 'URL',
+						type:'url',
+						id: 'brandfetch-url',
+						name: 'brandfetch-url',
+						placeholder: 'https://google.com'
+					})
+				}}
+			</div>
+			
+			<div class="btn add icon notice js-get-brandfetch ">Get Logo</div>
+		</div>
+
+
+		<div id="brandfetch-filled" {% if not logo %}style="display:none;"{% endif %}>
+			{% if logo %}
+				<img src="{{logo}}">
+			{% endif %}
+			<div class="btn small delete icon js-remove-brandfetch" >Remove</div>		
+		</div>
+	</div>
+
+	{{ forms.textField({
+			type:'hidden',
+			id: 'brandfetcher-img-id',
+			name: name,
+			value: value
+		})
+	}}
+
+{% endif %}

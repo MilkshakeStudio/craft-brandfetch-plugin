@@ -1,0 +1,40 @@
+{
+    "name": "milkshakestudio/brandfetch",
+    "description": "Craft CMS Plugin that allows you go quickly get the logo of a website via the Brandfetch API.",
+    "type": "craft-plugin",
+    "version": "1.0",
+    "keywords": [
+        "craft",
+        "cms",
+        "craftcms",
+        "craft-plugin",
+        "brandfetch"
+    ],
+    "support": {
+        "docs": "https://github.com/MilkshakeStudio/craft-brandfetch-plugin/blob/master/README.md",
+        "issues": "https://github.com/MilkshakeStudio/craft-brandfetch-plugin/issues"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Milkshake Studio",
+            "homepage": "https://milkshake.studio"
+        }
+    ],
+    "require": {
+        "craftcms/cms": "^3.0.0-RC1"
+    },
+    "autoload": {
+        "psr-4": {
+          "milkshakestudio\\brandfetch\\": "src/"
+        }
+    },
+    "extra": {
+        "name": "Brandfetch",
+        "handle": "brandfetch",
+        "hasCpSettings": true,
+        "hasCpSection": false,
+        "changelogUrl": "https://raw.githubusercontent.com/MilkshakeStudio/craft-brandfetch-plugin/master/CHANGELOG.md",
+        "class": "milkshakestudio\\brandfetch\\Brandfetch"
+    }
+}
