@@ -1,21 +1,20 @@
 /**
- * Brandfetch plugin for Craft CMS
- *
- * Brandfetcher Field CSS
- *
- * @author    Milkshake Studio
- * @copyright Copyright (c) 2020 Milkshake Studio
- * @link      https://milkshake.studio
- * @package   Brandfetch
- * @since     0.0.1
- */
-#fields-brandfetcher-field .flex .btn {
-   margin-top: 24px;
+* Brandfetch plugin for Craft CMS
+*
+* Brandfetcher Field CSS
+*
+* @author    Milkshake Studio
+* @copyright Copyright (c) 2020 Milkshake Studio
+* @link      https://milkshake.studio
+* @package   Brandfetch
+* @since     0.0.1
+*/
+#fields-brandfetch-logo .flex .btn {
+   margin-top: 19px;
 }
 
 #fields-brandfetch-logo  img{
    margin: 10px 0px;
    height: 40px;
    display: block;
-
 }
