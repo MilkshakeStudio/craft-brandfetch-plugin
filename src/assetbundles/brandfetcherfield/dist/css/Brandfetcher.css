@@ -10,11 +10,10 @@
 * @since     0.0.1
 */
 #fields-brandfetch-logo .flex .btn {
-   margin-top: 19px;
+   /* margin-top: 19px; */
 }
 
 #fields-brandfetch-logo  img{
-   margin: 10px 0px;
-   height: 40px;
-   display: block;
+   /* width: 100%; */
+   /* height: auto; */
 }

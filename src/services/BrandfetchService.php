@@ -71,6 +71,7 @@ class BrandfetchService extends Component
 	 */
 	public function saveLogo($res, $name )
 	{	
+		$view = Craft::$app->getView();
 
 		$imgUrl = $res['response']['logo']['image'];
 
@@ -122,12 +123,38 @@ class BrandfetchService extends Component
 		$asset->setScenario(Asset::SCENARIO_CREATE);
 
 		$result = Craft::$app->elements->saveElement($asset);
+		// $html = $asset->getEditorHtml();
+		$html = $view->renderTemplateMacro('_includes/forms', 'elementSelectField', [
+			[	
+				"id" => 'brandfetcher-img-id',
+				"name" => "fields[logo]",
+				"elementType" => 'craft\\elements\\Asset',
+				"selectionLabel" => "Add Logo",
+				"limit" => 1,
+				"viewMode" =>'large',
+				"elements" =>[$asset],
+				"modalSettings" => [
+					"hideSidebar" => true
+				]
+				//  'label' => Craft::t('app', 'Filename'),
+				//  'id' => 'newFilename',
+				//  'name' => 'newFilename',
+				//  'value' => $this->filename,
+				//  'errors' => $this->getErrors('newLocation'),
+				//  'first' => true,
+				//  'required' => true,
+				//  'class' => 'renameHelper text'
+			]
+	  ]);
+		// getPreviewThumbImg
 
 		if ($result) {
 			// $asset->getEditorHtml();
 			$returnData['result'] =  $asset;
 			$returnData['thumbnail'] = $assetsService->getThumbUrl($asset, 300, 200, false, false);
 			$returnData['message'] = 'Image saved!';
+			$returnData['html'] = $html;
+			
 		} else {
 			// $returnData['message'] = Craft::t('brandfetch', 'Oops, something went wrong...');
 			$returnData['result'] = $result;

@@ -42,9 +42,6 @@
 			$(this.options.removeLogoBtn).on("click", this.removeLogo);
 			$(this.options.getLogoBtn).on("click", this.getLogo);
 
-			// console.log('HIT', self.options.url, Craft.getActionUrl('brandfetch/bfcontroller/fetch-logo'))
-
-			/* -- _this.options gives us access to the $jsonVars that our FieldType passed down to us */
 		},
 		removeLogo: function() {
 			$(self.options.imageIdField).val("");
@@ -78,18 +75,27 @@
 						if (response.success) {
 							//reset value
 							$("#fields-brandfetch-url").val("");
-							// set image ID Value
-							$(self.options.imageIdField).val(
-								response.brandfetch.result.id
-							);
-							// create image
-							var $html = $("<img/>");
-							$html.attr("src", response.brandfetch.result.url);
-							// show files
-							$(self.options.filledView)
-								.show()
-								.prepend($html);
-							$(self.options.emptyView).hide();
+
+							
+							$(self.options.imageIdField).html(response.brandfetch.html)
+							
+							// var thumbLoader = new Craft.ElementThumbLoader();
+							// var $existing = $(self.options.imageIdField)
+							// thumbLoader.load($existing);
+
+							var tests = new Craft.BaseElementSelectInput({
+								id: 'brandfetcher-img-id',
+								fieldId:'brandfetcher-img-upload',
+								name: 'fields[logo]',
+								elementType: self.options.elementType,
+								viewMode: 'large',
+								limit: 1,
+								fieldId:  self.options.id,
+								elements:([response.brandfetch.result.id]),
+								// defaultFieldLayoutId: 'brandfetcher-img-id',
+								modalSettings: {hideSidebar: true}
+							});
+							
 
 							Craft.cp.displayNotice(response.brandfetch.message);
 						} else {
@@ -112,6 +118,7 @@
 			$("#fields-brandfetch-url").removeClass("error");
 			$("#fields-brandfetch-url-label").removeClass("error");
 		},
+		
 	};
 
 	// A really lightweight plugin wrapper around the constructor,

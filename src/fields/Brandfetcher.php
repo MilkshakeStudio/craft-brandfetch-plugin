@@ -25,7 +25,10 @@ use yii\db\Schema;
 use craft\helpers\Json;
 
 
-use craft\services\Assets;
+use craft\elements\Asset;
+
+use function PHPSTORM_META\elementType;
+
 /**
  * Brandfetcher Field
  *
@@ -97,10 +100,10 @@ class Brandfetcher extends Field
     public function normalizeValue($value, ElementInterface $element = null)
     {
         // get the logo if available
-        $imgObj=[];
         if($value){
-            $imgObj = Craft::$app->getAssets()->getAssetById($value);
-            return parent::normalizeValue($imgObj, $element);
+
+            $asset = Asset::find()->id($value)->one();
+            return parent::normalizeValue($asset, $element);
         }else{
             return parent::normalizeValue($value, $element);
         }
@@ -169,13 +172,14 @@ class Brandfetcher extends Field
             $logoURL = Craft::$app->getAssets()->getThumbUrl($value, 300, 200, false, false);
         }
         
-
+        
         // Variables to pass down to our field JavaScript to let it namespace properly
         $jsonVars = [
             'id' => $id,
             'name' => $this->handle,
             'namespace' => $namespacedId,
             'prefix' => Craft::$app->getView()->namespaceInputId(''),
+            'elementType' =>   'craft\\elements\\Asset',
             ];
         $jsonVars = Json::encode($jsonVars);
         Craft::$app->getView()->registerJs("$('#{$namespacedId}-field').BrandfetchBrandfetcher(" . $jsonVars . ");");
@@ -187,12 +191,14 @@ class Brandfetcher extends Field
             [
                 'name' => $this->handle,
                 'value' => $this->serializeValue($value),
+                'test'=> $value,
                 'field' => $this,
                 'id' => $id,
                 'logo' => $logoURL ?? null,
                 'url' => $this->url,
                 'apiSet' => $apiSet,
-                'namespacedId' => $namespacedId
+                'namespacedId' => $namespacedId,
+                'elementType' =>  'craft\\elements\\Asset',
             ]
         );
     }

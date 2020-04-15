@@ -29,10 +29,25 @@
 {% else %}
 
 	<div id="brandfetch-logo">		
-		<div class="flex" id="brandfetch-empty" {% if logo %}style="display:none;"{% endif %}>
+
+		{{forms.elementSelectField({
+				id: 'brandfetcher-img-id',
+				fieldId:'brandfetcher-img-upload',
+				name: name,
+				elementType: elementType,
+				selectionLabel: "Add Logo",
+				limit: 1,
+				viewMode:'large',
+				elements:(test is defined and test ? [test]),
+				modalSettings: {
+					hideSidebar: true
+				}
+			})}}
+
+		<div class="flex" id="brandfetch-empty">
 			<div class="flex-grow">
 				{{ forms.textField({
-						label: 'URL',
+						label: 'Fetch URL',
 						type:'url',
 						id: 'brandfetch-url',
 						name: 'brandfetch-url',
@@ -43,22 +58,6 @@
 			
 			<div class="btn add icon  js-get-brandfetch ">Get Logo</div>
 		</div>
-
-
-		<div id="brandfetch-filled" {% if not logo %}style="display:none;"{% endif %}>
-			{% if logo %}
-				<img src="{{logo}}">
-			{% endif %}
-			<div class="btn small delete icon js-remove-brandfetch" >Remove</div>		
-		</div>
 	</div>
-
-	{{ forms.textField({
-			type:'hidden',
-			id: 'brandfetcher-img-id',
-			name: name,
-			value: value
-		})
-	}}
 
 {% endif %}
