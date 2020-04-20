@@ -16,11 +16,11 @@
 		defaults = {
 			actionUrl: "brandfetch/bfcontroller/fetch-logo",
 			getLogoBtn: ".js-get-brandfetch",
-			removeLogoBtn: ".js-remove-brandfetch",
 			logo: "#fields-brandfetch-logo img",
 			emptyView: "#fields-brandfetch-empty",
 			filledView: "#fields-brandfetch-filled",
 			imageIdField: "#fields-brandfetcher-img-id",
+			urlInput : '#fields-brandfetch-url'
 		};
 
 	// Plugin constructor
@@ -37,24 +37,29 @@
 
 	Plugin.prototype = {
 		init: function(id) {
-			console.log(this.options);
 			// Initial Callers
-			$(this.options.removeLogoBtn).on("click", this.removeLogo);
 			$(this.options.getLogoBtn).on("click", this.getLogo);
+			
+			// watch for enter
+			$(this.options.urlInput).on('focus', ()=>{
+				$(document).keypress(function(e) {
+					if(e.which == 13) {
+						e.preventDefault();
+						self.getLogo();
+					}
+				});
+			})
+			// remove action
+			$(this.options.urlInput).on('blur', ()=>{
+				$(this.options.urlInput).off('focus')
+			});
 
 		},
-		removeLogo: function() {
-			$(self.options.imageIdField).val("");
-
-			$(self.options.logo).remove();
-			$(self.options.filledView).hide();
-
-			$(self.options.emptyView).show();
-		},
-
+		
+		// API Call to get the logo
 		getLogo: function() {
 			self.removeErrors();
-			var fetchUrl = $("#fields-brandfetch-url").val();
+			var fetchUrl = $(this.options.urlInput).val();
 			if (
 				fetchUrl == null ||
 				fetchUrl == "" ||
@@ -74,16 +79,11 @@
 					if (textStatus === "success") {
 						if (response.success) {
 							//reset value
-							$("#fields-brandfetch-url").val("");
-
+							$(self.options.urlInput).val("");
 							
 							$(self.options.imageIdField).html(response.brandfetch.html)
 							
-							// var thumbLoader = new Craft.ElementThumbLoader();
-							// var $existing = $(self.options.imageIdField)
-							// thumbLoader.load($existing);
-
-							var tests = new Craft.BaseElementSelectInput({
+							new Craft.BaseElementSelectInput({
 								id: 'brandfetcher-img-id',
 								fieldId:'brandfetcher-img-upload',
 								name: 'fields[logo]',
@@ -92,7 +92,6 @@
 								limit: 1,
 								fieldId:  self.options.id,
 								elements:([response.brandfetch.result.id]),
-								// defaultFieldLayoutId: 'brandfetcher-img-id',
 								modalSettings: {hideSidebar: true}
 							});
 							
@@ -105,17 +104,18 @@
 				}, this)
 			);
 		},
+		// Basic URL validation
 		validateUrl: function(url) {
 			return /^(https?|s?ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i.test(
 				url
 			);
 		},
 		setFieldErrors: function() {
-			$("#fields-brandfetch-url").addClass("error");
+			$(this.options.urlInput).addClass("error");
 			$("#fields-brandfetch-url-label").addClass("error");
 		},
 		removeErrors() {
-			$("#fields-brandfetch-url").removeClass("error");
+			$(this.options.urlInput).removeClass("error");
 			$("#fields-brandfetch-url-label").removeClass("error");
 		},
 		

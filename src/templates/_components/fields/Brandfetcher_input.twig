@@ -1,4 +1,3 @@
-{# @var craft \craft\web\twig\variables\CraftVariable #}
 {#
 /**
 * Brandfetch plugin for Craft CMS 3.x
@@ -14,10 +13,6 @@
 #}
 
 {% import "_includes/forms" as forms %}
-{# {% do view.registerAssetBundle("craft\\web\\assets\\fields\\FieldsAsset") %} #}
-
-
-{# {% include "_components/fieldtypes/assets/input" %} #}
 
 {% if not apiSet %}
 	<div class="input">
@@ -29,21 +24,22 @@
 {% else %}
 
 	<div id="brandfetch-logo">		
-
+		{# Asset Field #}
 		{{forms.elementSelectField({
-				id: 'brandfetcher-img-id',
-				fieldId:'brandfetcher-img-upload',
-				name: name,
-				elementType: elementType,
-				selectionLabel: "Add Logo",
-				limit: 1,
-				viewMode:'large',
-				elements:(test is defined and test ? [test]),
-				modalSettings: {
-					hideSidebar: true
-				}
-			})}}
-
+			id: 'brandfetcher-img-id',
+			fieldId:'brandfetcher-img-upload',
+			name: name,
+			elementType: elementType,
+			selectionLabel: "Add Logo",
+			limit: 1,
+			viewMode:'large',
+			elements:(test is defined and test ? [test]),
+			modalSettings: {
+				hideSidebar: true
+			}
+		})}}
+		
+		{# Brandfetch Custom Input #}
 		<div class="flex" id="brandfetch-empty">
 			<div class="flex-grow">
 				{{ forms.textField({
@@ -55,8 +51,8 @@
 					})
 				}}
 			</div>
-			
-			<div class="btn add icon  js-get-brandfetch ">Get Logo</div>
+			<input type="submit" form="brandfetch-url" class="btn submit js-get-brandfetch" value="Fetch Logo">
+			{# <div class="btn add icon  js-get-brandfetch">Get Logo</div> #}
 		</div>
 	</div>
 

@@ -13,10 +13,6 @@ namespace milkshakestudio\brandfetch\fields;
 use milkshakestudio\brandfetch\Brandfetch;
 use milkshakestudio\brandfetch\assetbundles\brandfetcherfield\BrandfetcherFieldAsset;
 
-
-// use craft\fields\Assets as AssetField;
-
-
 use Craft;
 use craft\base\ElementInterface;
 use craft\base\Field;
@@ -101,7 +97,6 @@ class Brandfetcher extends Field
     {
         // get the logo if available
         if($value){
-
             $asset = Asset::find()->id($value)->one();
             return parent::normalizeValue($asset, $element);
         }else{
@@ -125,11 +120,11 @@ class Brandfetcher extends Field
      */
     public function serializeValue($value, ElementInterface $element = null)
     {
-        if( gettype($value) === 'object' )
-        { 
-            return parent::serializeValue($value->id, $element);
+        if(!empty($value)){
+            // $asset = Asset::find()->id($value)->one();
+            return parent::normalizeValue($value->id, $element);
         }else{
-            return parent::serializeValue($value, $element);
+            return parent::normalizeValue($value, $element);
         }
         
         // return $value->id;
@@ -173,6 +168,7 @@ class Brandfetcher extends Field
         }
         
         
+        // TODO: this should be the same as the varriabls that go to the field template
         // Variables to pass down to our field JavaScript to let it namespace properly
         $jsonVars = [
             'id' => $id,
@@ -183,6 +179,8 @@ class Brandfetcher extends Field
             ];
         $jsonVars = Json::encode($jsonVars);
         Craft::$app->getView()->registerJs("$('#{$namespacedId}-field').BrandfetchBrandfetcher(" . $jsonVars . ");");
+        
+        // Is API SET?
         $apiSet = !empty(Brandfetch::$plugin->getSettings()->brandfetch_api_key);
 
         // Render the input template

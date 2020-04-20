@@ -184,7 +184,7 @@ class Brandfetch extends Plugin
      */
     protected function settingsHtml(): string
     {   
-        // TODO: add erroro if no volumes
+        // TODO: add error if no volumes
         // Render the settings template
         $destinationOptions = [];
         $volumes = Craft::$app->getVolumes();
