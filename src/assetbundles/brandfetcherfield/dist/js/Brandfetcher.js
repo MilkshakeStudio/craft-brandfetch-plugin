@@ -59,7 +59,7 @@
 		// API Call to get the logo
 		getLogo: function() {
 			self.removeErrors();
-			var fetchUrl = $(this.options.urlInput).val();
+			var fetchUrl = $(self.options.urlInput).val();
 			if (
 				fetchUrl == null ||
 				fetchUrl == "" ||

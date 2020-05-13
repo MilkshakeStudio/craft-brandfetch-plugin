@@ -2,7 +2,7 @@
     "name": "milkshakestudio/craft-brandfetch",
     "description": "Craft CMS Plugin that allows you quickly get the logo of a website via the Brandfetch API.",
     "type": "craft-plugin",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "keywords": [
         "craft",
         "cms",
